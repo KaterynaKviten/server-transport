@@ -1,0 +1,209 @@
+openapi: 3.0.0
+info:
+  title: PRJ Angular API
+  version: 1.0.0
+  description: API для роботи з користувачами, водіями, маршрутами та перевезеннями
+
+servers:
+  - url: http://localhost:3000
+
+paths:
+  /api/login/password:
+    post:
+      summary: Логін користувача
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Успішний логін
+        '401':
+          description: Невірний логін або пароль
+
+  /api/register:
+    post:
+      summary: Реєстрація користувача
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                email:
+                  type: string
+      responses:
+        '201':
+          description: Користувача зареєстровано
+        '400':
+          description: Некоректні дані
+        '409':
+          description: Користувач вже існує
+        '500':
+          description: Внутрішня помилка сервера
+
+  /api/driver/create:
+    post:
+      summary: Додати водія
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                lastName:
+                  type: string
+                firstName:
+                  type: string
+                middleName:
+                  type: string
+                experience:
+                  type: integer
+      responses:
+        '201':
+          description: Водія створено
+
+  /api/drivers:
+    get:
+      summary: Отримати список водіїв
+      responses:
+        '200':
+          description: Список водіїв
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    lastName:
+                      type: string
+                    firstName:
+                      type: string
+                    middleName:
+                      type: string
+                    experience:
+                      type: integer
+
+  /api/routes/create:
+    post:
+      summary: Додати маршрут
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                distance:
+                  type: number
+                days:
+                  type: integer
+                payment:
+                  type: number
+      responses:
+        '201':
+          description: Маршрут створено
+
+  /api/routes:
+    get:
+      summary: Отримати список маршрутів
+      responses:
+        '200':
+          description: Список маршрутів
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    distance:
+                      type: number
+                    days:
+                      type: integer
+                    payment:
+                      type: number
+
+  /api/work/create:
+    post:
+      summary: Додати перевезення
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                drivers:
+                  type: array
+                  items:
+                    type: string
+                startDate:
+                  type: string
+                  format: date
+                endDate:
+                  type: string
+                  format: date
+                experience:
+                  type: boolean
+                bonus:
+                  type: number
+      responses:
+        '201':
+          description: Перевезення створено
+        '400':
+          description: Некоректні дані
+
+  /api/work:
+    get:
+      summary: Отримати список перевезень
+      responses:
+        '200':
+          description: Список перевезень
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    drivers:
+                      type: array
+                      items:
+                        type: string
+                    startDate:
+                      type: string
+                      format: date
+                    endDate:
+                      type: string
+                      format: date
+                    experienceBonus:
+                      type: number
+                    pay:
+                      type: number
+                    payBonus:
+                      type: number
+                    totalPay:
+                      type: number
