@@ -1,15 +1,51 @@
-import { MongoClient } from 'mongodb';
+import mongoose from "mongoose";
 
-const uri = 'mongodb://localhost:27017/myAngularProject';
-const client = new MongoClient(uri);
+mongoose.connect("mongodb://localhost:27017/prj-angular", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+mongoose.connection.on("connected", () => {
+  console.log("Mongoose connected to MongoDB");
+});
+mongoose.connection.on("error", (err) => {
+  console.error("Mongoose connection error:", err);
+});
 
-let dbInstance = null;
+// Driver schema
+const driverSchema = new mongoose.Schema({
+  lastName: String,
+  firstName: String,
+  middleName: String,
+  experience: Number,
+});
+export const Driver = mongoose.model("Driver", driverSchema);
 
-export async function getDb() {
-  if (!dbInstance) {
-    await client.connect();
-    dbInstance = client.db();
-    console.log('Connected to MongoDB');
-  }
-  return dbInstance;
-}
+// Route schema
+const routeSchema = new mongoose.Schema({
+  name: String,
+  distance: Number,
+  days: Number,
+  payment: Number,
+});
+
+export const Route = mongoose.model("Route", routeSchema);
+
+const userSchema = new mongoose.Schema({
+  username: String,
+  email: String,
+  hashedPassword: Buffer,
+});
+export const User = mongoose.model("User", userSchema);
+
+// Work schema
+const workSchema = new mongoose.Schema({
+  name: String,
+  drivers: [String],
+  startDate: String,
+  endDate: String,
+  experienceBonus: Number,
+  pay: Number,
+  payBonus: Number,
+  totalPay: Number,
+});
+export const Work = mongoose.model("Work", workSchema);
