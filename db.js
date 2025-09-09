@@ -11,7 +11,6 @@ mongoose.connection.on("error", (err) => {
   console.error("Mongoose connection error:", err);
 });
 
-// Driver schema
 const driverSchema = new mongoose.Schema({
   lastName: String,
   firstName: String,
@@ -20,7 +19,6 @@ const driverSchema = new mongoose.Schema({
 });
 export const Driver = mongoose.model("Driver", driverSchema);
 
-// Route schema
 const routeSchema = new mongoose.Schema({
   name: String,
   distance: Number,
@@ -37,7 +35,6 @@ const userSchema = new mongoose.Schema({
 });
 export const User = mongoose.model("User", userSchema);
 
-// Work schema
 const workSchema = new mongoose.Schema({
   name: String,
   drivers: [String],
